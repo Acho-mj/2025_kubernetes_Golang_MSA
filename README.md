@@ -1,62 +1,40 @@
 
-## 프로젝트 구조
+- **Backend**: Django REST Framework (DRF)
+- **Frontend**: React + Vite
+- **Container Orchestration**: Kubernetes (K8s)
+- **Package Manager**: Helm
+
+
+### 프로젝트 구조
 
 ```
 2025_k8s/
-├── backend/          # Django REST Framework 백엔드
-│   ├── api/         # API 앱 (이름 저장/조회)
-│   ├── config/      # Django 설정
-│   └── manage.py
-└── frontend/        # React + Vite 프론트엔드
-    └── src/
+├── backend/
+├── frontend/
+└── helm/
 ```
 
-### 백엔드 실행
+### Helm 차트 설치
 
-1. 가상환경 생성 및 활성화
+1. Helm 차트 의존성 업데이트
 ```bash
-cd backend
-python3 -m venv venv
-source venv/bin/activate  # macOS/Linux
-# venv\Scripts\activate  # Windows
+cd helm
+helm dependency update
 ```
 
-2. 의존성 설치
+2. Helm 차트 설치
 ```bash
-pip install -r requirements.txt
+helm install k8s-app . -n default
 ```
 
-3. 데이터베이스 마이그레이션
+3. 설치 상태 확인
 ```bash
-python3 manage.py makemigrations
-python3 manage.py migrate
+kubectl get pods
+kubectl get services
+kubectl get deployments
 ```
 
-4. 서버 실행
-```bash
-python3 manage.py runserver
-```
-
-백엔드가 `http://localhost:8000`에서 실행
-
-
-### 프론트엔드 실행
-
-1. 의존성 설치
-```bash
-cd frontend
-npm install
-```
-
-2. 개발 서버 실행
-```bash
-npm run dev
-```
-
-프론트엔드가 `http://localhost:3000`에서 실행
-
-
-## API 엔드포인트
+### API 엔드포인트
 
 - `GET /api/names/` - 이름 목록 조회
 - `POST /api/names/` - 이름 저장
@@ -65,9 +43,15 @@ npm run dev
     "name": "홍길동"
   }
   ```
+- `GET /api/health/` - 헬스 체크 (liveness/readiness probe용)
 
-## 기능
+### 아키텍처
+<img width="1839" height="1648" alt="Image" src="https://github.com/user-attachments/assets/8830fb3b-f4ca-441e-ac4f-9c7b9d4a879e" />
 
-- 이름 입력 및 저장
-- 저장된 이름 목록 조회
-- 생성일시 표시
+
+### 참고 자료
+- [Kubernetes 공식 문서](https://kubernetes.io/docs/)
+- [Helm 공식 문서](https://helm.sh/docs/)
+- [Django REST Framework 문서](https://www.django-rest-framework.org/)
+- [React 공식 문서](https://react.dev/)
+- [AWS EKS 문서](https://docs.aws.amazon.com/eks/)
