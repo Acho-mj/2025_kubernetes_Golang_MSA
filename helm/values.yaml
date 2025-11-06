@@ -118,7 +118,7 @@ grafana:
 
 # Airflow
 airflow:
-  enabled: true
+  enabled: false  # Airflow 비활성화
   defaultAirflowRepository: apache/airflow
   defaultAirflowTag: "2.8.0"
   webserver:
