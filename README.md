@@ -11,6 +11,7 @@
 2025_k8s/
 ├── backend/
 ├── frontend/
+└── docs/
 └── helm/
 ```
 
