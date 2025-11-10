@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package category;
+
+// Category 정보 조회를 위한 gRPC 서비스 정의
+service CategoryService {
+  rpc ListCategories (ListCategoriesRequest) returns (ListCategoriesResponse);
+  rpc GetCategory (GetCategoryRequest) returns (GetCategoryResponse);
+}
+
+// Category 전체 목록 조회
+message ListCategoriesRequest {}
+message CategoryItem {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message ListCategoriesResponse {
+  repeated CategoryItem categories = 1;
+}
+
+// 특정 Category 단건 조회
+message GetCategoryRequest {
+  string id = 1;
+}
+
+message GetCategoryResponse {
+  CategoryMessage category = 1;
+}
+
+

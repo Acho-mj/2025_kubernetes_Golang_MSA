@@ -9,5 +9,6 @@ class NameSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     value = serializers.CharField(max_length=100)
     created_at = serializers.DateTimeField(read_only=True)
+    category_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
 

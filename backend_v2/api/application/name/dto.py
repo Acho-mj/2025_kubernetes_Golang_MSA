@@ -8,5 +8,6 @@ class CreateNameCommand:
     """
 
     value: str
+    category_id: str | None = None
 
 

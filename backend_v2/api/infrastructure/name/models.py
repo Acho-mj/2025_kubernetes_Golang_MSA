@@ -8,6 +8,7 @@ class NameModel(models.Model):
 
     value = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
+    category_id = models.CharField(max_length=50, null=True, blank=True)
 
     class Meta:
         db_table = "api_name"

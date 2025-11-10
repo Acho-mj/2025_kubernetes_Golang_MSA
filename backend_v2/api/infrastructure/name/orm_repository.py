@@ -11,12 +11,22 @@ class DjangoORMNameRepository(NameRepository):
     """
 
     def save(self, name: Name) -> Name:
-        obj = NameModel.objects.create(value=name.value)
-        return Name(id=obj.id, value=obj.value, created_at=obj.created_at)
+        obj = NameModel.objects.create(value=name.value, category_id=name.category_id)
+        return Name(
+            id=obj.id,
+            value=obj.value,
+            created_at=obj.created_at,
+            category_id=obj.category_id,
+        )
 
     def list(self) -> List[Name]:
         return [
-            Name(id=obj.id, value=obj.value, created_at=obj.created_at)
+            Name(
+                id=obj.id,
+                value=obj.value,
+                created_at=obj.created_at,
+                category_id=obj.category_id,
+            )
             for obj in NameModel.objects.all()
         ]
 

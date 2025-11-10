@@ -1,9 +1,11 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
+from backend_v2.api.application.category.query_service import CategoryQueryService
 from backend_v2.api.application.name.command_service import NameCommandService
 from backend_v2.api.application.name.dto import CreateNameCommand
 from backend_v2.api.application.name.query_service import NameQueryService
+from backend_v2.api.infrastructure.category.grpc_repository import CategoryGrpcRepository
 from backend_v2.api.infrastructure.name.orm_repository import DjangoORMNameRepository
 from backend_v2.api.interfaces.rest.name.serializers import NameSerializer
 
@@ -16,7 +18,12 @@ class NameViewSet(viewsets.ViewSet):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         repository = DjangoORMNameRepository()
-        self.command_service = NameCommandService(repository)
+        category_repository = CategoryGrpcRepository()
+        self.category_query_service = CategoryQueryService(category_repository)
+        self.command_service = NameCommandService(
+            repository,
+            category_repository=category_repository,
+        )
         self.query_service = NameQueryService(repository)
 
     def list(self, request):
@@ -29,6 +36,8 @@ class NameViewSet(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
 
         command = CreateNameCommand(value=serializer.validated_data["value"])
+        command.category_id = serializer.validated_data.get("category_id")
+
         name = self.command_service.create_name(command)
 
         response_serializer = NameSerializer(name)
