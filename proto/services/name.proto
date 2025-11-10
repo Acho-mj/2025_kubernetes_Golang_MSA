@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package names;
+
+// 이름 등록과 조회를 담당하는 서비스
+service NameSerive {
+    rpc CreateName (CreateNameRequest) returns (CreateNameResponse);
+    rpc ListNames (ListNamesRequest) returns (ListNamesResponse);
+}
+
+message CreateNameRequest {
+    string value = 1;
+}
+
+message CreateNameResponse {
+    string id = 1;
+    string value = 2; 
+    string created_at = 3;
+}
+
+/* 조회 조건이 아직 없어서 비어 있는 요청 메시지 */
+message ListNamesRequest {}
+message NameItem{
+    string id = 1;
+    string value = 2;
+    string created_at = 3;
+}
+message ListNamesResponse {
+    repeated NameItem items = 1; 
+}
